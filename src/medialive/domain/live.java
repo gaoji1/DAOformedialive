@@ -1,10 +1,19 @@
 package medialive.domain;
 
 public class live {
+	private Long id;
 	private String roomName; // 房间名称
 	private String streamName; // 流名称
 	private String red5URL; // red5URL名称
-	private Long id;
+	
+
+	
+
+	@Override
+	public String toString() {
+		return "live [id=" + id + ", roomName=" + roomName + ", streamName=" + streamName + ", red5URL=" + red5URL
+				+ "]";
+	}
 
 	public Long getId() {
 		return id;
