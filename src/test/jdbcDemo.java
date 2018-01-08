@@ -1,31 +1,22 @@
 package test;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import medialive.DAO.impl.liveDAOImpl;
-import medialive.domain.live;
+import medialive.DAO.impl.playbackDAOImpl;
+import medialive.domain.playback;
 
 public class jdbcDemo {
 	public static void main(String[] args) throws SQLException, InterruptedException {
 
-		liveDAOImpl liveDAO = new liveDAOImpl();
-//		live liveDemo = new live();
-//		liveDemo.setRoomName("我就是要改你!");
-//		liveDemo.setStreamName("firstStream");
-//		liveDAO.updateLive(liveDemo);
-		List<live> liveDemos = new ArrayList<live>();
-		liveDAO.init();
-		liveDemos = liveDAO.list();
-		if(liveDemos.isEmpty()) {
-			System.out.println("当前没有直播间");
-		}
-		for(live e:liveDemos) {
-			System.out.println(e.toString());
-		}
-
-		
+		playbackDAOImpl playbackDAO = new playbackDAOImpl();
+		playbackDAO.init();
+		playback pb = new playback();
+		pb.setStreamName("firststream");
+		pb.setFileName("测试文件名");
+		pb.setRed5URL("测试URL2");
+		java.util.Date dt = new java.util.Date();
+		pb.setLiveDate(dt);
+		playbackDAO.save(pb);
 	}
 
 }

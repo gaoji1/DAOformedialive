@@ -5,9 +5,6 @@ public class live {
 	private String roomName; // 房间名称
 	private String streamName; // 流名称
 	private String red5URL; // red5URL名称
-	
-
-	
 
 	@Override
 	public String toString() {

@@ -15,6 +15,7 @@ import medialive.DAO.ILiveDAO;
 import medialive.domain.live;
 
 public class liveDAOImpl implements ILiveDAO {
+	@SuppressWarnings("unused")
 	private String driverClassName = "com.mysql.jdbc";
 	private String url = "jdbc:mysql:///test";
 	private String userName = "root";
