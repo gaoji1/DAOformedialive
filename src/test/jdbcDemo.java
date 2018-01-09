@@ -12,16 +12,15 @@ public class jdbcDemo {
 
 		playbackDAOImpl playbackDAO = new playbackDAOImpl();
 		playbackDAO.init();
-//		创建playback对象并赋值
-		List<playback> pbList = playbackDAO.getByDate(new Date(118, 0, 10));
+		// 创建playback对象并赋值
+
+		List<playback> pbList = playbackDAO.list();
 		if(pbList.isEmpty()) {
-			System.out.println("没有找到符合要求的视频信息");
+			System.out.println("当前没有任何视频信息");
 		}
 		for(playback pb:pbList) {
-			System.out.println(pb.toString());
+			System.out.println(pb);
 		}
-		
 
 	}
-
 }

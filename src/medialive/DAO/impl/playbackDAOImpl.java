@@ -158,14 +158,14 @@ public class playbackDAOImpl implements IPlaybackDao {
 			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE id=?");
 			ps.setLong(1, id);
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				pb.setId(rs.getLong("id"));
 				pb.setStreamName(rs.getString("streamName"));
 				pb.setLiveDate(rs.getDate("liveDate"));
 				pb.setFileName(rs.getString("fileName"));
 				pb.setRed5URL(rs.getString("red5URL"));
-				System.out.println("找到了id为"+id+"的视频信息");
+				System.out.println("找到了id为" + id + "的视频信息");
 			}
 			rs.close();
 			ps.close();
@@ -184,8 +184,8 @@ public class playbackDAOImpl implements IPlaybackDao {
 			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE streamName=?");
 			ps.setString(1, streamName);
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				playback pb = new playback();
 				pb.setId(rs.getLong("id"));
 				pb.setStreamName(rs.getString("streamName"));
@@ -194,7 +194,7 @@ public class playbackDAOImpl implements IPlaybackDao {
 				pb.setRed5URL(rs.getString("red5URL"));
 				pbList.add(pb);
 			}
-			System.out.println("查找流名称为"+ streamName +"的视频信息");
+			System.out.println("查找流名称为" + streamName + "的视频信息");
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
@@ -212,8 +212,8 @@ public class playbackDAOImpl implements IPlaybackDao {
 			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE liveDate=?");
 			ps.setDate(1, new java.sql.Date(date.getTime()));
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				playback pb = new playback();
 				pb.setId(rs.getLong("id"));
 				pb.setStreamName(rs.getString("streamName"));
@@ -222,7 +222,7 @@ public class playbackDAOImpl implements IPlaybackDao {
 				pb.setRed5URL(rs.getString("red5URL"));
 				pbList.add(pb);
 			}
-			System.out.println("查找登记日期为"+ date.toLocaleString() +"的视频信息");
+			System.out.println("查找登记日期为" + date.toLocaleString() + "的视频信息");
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
@@ -235,13 +235,54 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public playback getByfileName(String fileName) {
 		// TODO Auto-generated method stub
-		return null;
+		playback pb = new playback();
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE fileName=?");
+			ps.setString(1, fileName);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				pb.setId(rs.getLong("id"));
+				pb.setStreamName(rs.getString("streamName"));
+				pb.setLiveDate(rs.getDate("liveDate"));
+				pb.setFileName(rs.getString("fileName"));
+				pb.setRed5URL(rs.getString("red5URL"));
+				System.out.println("找到了文件名为" + fileName + "的视频信息");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pb;
 	}
 
 	@Override
 	public List<playback> list() {
 		// TODO Auto-generated method stub
-		return null;
+		List<playback> pbList = new ArrayList<>();
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" );
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				playback pb = new playback();
+				pb.setId(rs.getLong("id"));
+				pb.setStreamName(rs.getString("streamName"));
+				pb.setLiveDate(rs.getDate("liveDate"));
+				pb.setFileName(rs.getString("fileName"));
+				pb.setRed5URL(rs.getString("red5URL"));
+				pbList.add(pb);
+			}
+			System.out.println("查找全部视频信息");
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pbList;
 	}
 
 }
