@@ -18,7 +18,8 @@ public class jdbcDemo {
 		java.util.Date dt = new java.util.Date();
 		pb.setLiveDate(dt);
 //		playbackDAO.save(pb);
-		playbackDAO.deleteByid(1L);
+//		playbackDAO.deleteByid(1L);
+		playbackDAO.deleteBystreamName("firststream");
 	}
 
 }

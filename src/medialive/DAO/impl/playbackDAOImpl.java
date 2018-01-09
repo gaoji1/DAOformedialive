@@ -103,7 +103,17 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public boolean deleteBystreamName(String streamName) {
 		// TODO Auto-generated method stub
-		return false;
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("DELETE\r\n" + "FROM playback\r\n" + "WHERE streamName=?");
+			ps.setString(1, streamName);
+			ps.executeUpdate();
+			System.out.println("删除流名称为" + streamName + "的回放视频信息");
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
