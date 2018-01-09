@@ -119,13 +119,33 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public boolean deleteByliveDate(Date date) {
 		// TODO Auto-generated method stub
-		return false;
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("DELETE\r\n" + "FROM playback\r\n" + "WHERE liveDate=?");
+			ps.setDate(1, new java.sql.Date(date.getTime()));
+			ps.executeUpdate();
+			System.out.println("删除流保存时间为" + date.toLocaleString() + "的回放视频信息");
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
 	public boolean deleteByfileName(String fileName) {
 		// TODO Auto-generated method stub
-		return false;
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("DELETE\r\n" + "FROM playback\r\n" + "WHERE fileName=?");
+			ps.setString(1, fileName);
+			ps.executeUpdate();
+			System.out.println("删除文件名为" + fileName + "的回放视频信息");
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override

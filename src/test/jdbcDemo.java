@@ -1,6 +1,7 @@
 package test;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import medialive.DAO.impl.playbackDAOImpl;
 import medialive.domain.playback;
@@ -19,7 +20,9 @@ public class jdbcDemo {
 		pb.setLiveDate(dt);
 //		playbackDAO.save(pb);
 //		playbackDAO.deleteByid(1L);
-		playbackDAO.deleteBystreamName("firststream");
+//		playbackDAO.deleteBystreamName("firststream");
+//		playbackDAO.deleteByliveDate(new Date());
+		playbackDAO.deleteByfileName("hhh");
 	}
 
 }
