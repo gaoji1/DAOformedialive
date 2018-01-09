@@ -13,16 +13,22 @@ public class jdbcDemo {
 		playbackDAO.init();
 //		创建playback对象并赋值
 		playback pb = new playback();
-		pb.setStreamName("firststream");
-		pb.setFileName("测试文件名");
-		pb.setRed5URL("测试URL2");
-		java.util.Date dt = new java.util.Date();
-		pb.setLiveDate(dt);
+//		pb.setStreamName("firststream");
+//		pb.setFileName("测试文件名");
+//		pb.setRed5URL("测试URL2");
+//		java.util.Date dt = new java.util.Date();
+//		pb.setLiveDate(dt);
 //		playbackDAO.save(pb);
 //		playbackDAO.deleteByid(1L);
 //		playbackDAO.deleteBystreamName("firststream");
 //		playbackDAO.deleteByliveDate(new Date());
-		playbackDAO.deleteByfileName("hhh");
+//		playbackDAO.deleteByfileName("hhh");
+		pb = playbackDAO.getByid(9L);
+		if(pb.getId() == null) {
+			System.out.println("没有要找的元素");
+		}else {
+			System.out.println(pb.toString());
+		}
 	}
 
 }

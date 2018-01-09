@@ -6,6 +6,7 @@ import java.sql.Connection;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -151,7 +152,27 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public playback getByid(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		playback pb = new playback();
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE id=?");
+			ps.setLong(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				pb.setId(rs.getLong("id"));
+				pb.setStreamName(rs.getString("streamName"));
+				pb.setLiveDate(rs.getDate("liveDate"));
+				pb.setFileName(rs.getString("fileName"));
+				pb.setRed5URL(rs.getString("red5URL"));
+				System.out.println("找到了id为"+id+"的视频信息");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pb;
 	}
 
 	@Override
