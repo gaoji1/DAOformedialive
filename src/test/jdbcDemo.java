@@ -10,13 +10,15 @@ public class jdbcDemo {
 
 		playbackDAOImpl playbackDAO = new playbackDAOImpl();
 		playbackDAO.init();
+//		创建playback对象并赋值
 		playback pb = new playback();
 		pb.setStreamName("firststream");
 		pb.setFileName("测试文件名");
 		pb.setRed5URL("测试URL2");
 		java.util.Date dt = new java.util.Date();
 		pb.setLiveDate(dt);
-		playbackDAO.save(pb);
+//		playbackDAO.save(pb);
+		playbackDAO.deleteByid(1L);
 	}
 
 }

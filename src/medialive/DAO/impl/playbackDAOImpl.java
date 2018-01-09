@@ -75,6 +75,9 @@ public class playbackDAOImpl implements IPlaybackDao {
 	}
 
 	@Override
+	/**
+	 * 暂时不需要将视频信息全部删除,此方法保留(可能有别的用途)
+	 */
 	public boolean clean() {
 		// TODO Auto-generated method stub
 		return false;
@@ -83,7 +86,18 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public boolean deleteByid(Long id) {
 		// TODO Auto-generated method stub
-		return false;
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("DELETE\r\n" + "FROM playback\r\n" + "WHERE id=?");
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			System.out.println("删除id为" + id + "的回放视频信息");
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+
 	}
 
 	@Override
