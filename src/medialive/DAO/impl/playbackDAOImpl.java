@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,19 @@ public class playbackDAOImpl implements IPlaybackDao {
 			userName = p.getProperty("userName");
 			password = p.getProperty("password");
 			System.out.println("设置链接参数");
-		} catch (IOException e) {
+			Connection cn = DriverManager.getConnection(url, userName, password);
+			Statement sm = cn.createStatement();
+			sm.execute("CREATE TABLE IF NOT EXISTS `playback` (\r\n" + 
+					"  `id` int(11) NOT NULL AUTO_INCREMENT,\r\n" + 
+					"  `streamName` varchar(50) NOT NULL,\r\n" + 
+					"  `liveDate` date NOT NULL,\r\n" + 
+					"  `fileName` varchar(50) NOT NULL,\r\n" + 
+					"  `red5URL` varchar(50) DEFAULT NULL,\r\n" + 
+					"  PRIMARY KEY (`id`),\r\n" + 
+					"  UNIQUE KEY `fileName` (`fileName`) USING BTREE\r\n" + 
+					") ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;");
+			System.out.println("表初始化");
+		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -118,6 +131,7 @@ public class playbackDAOImpl implements IPlaybackDao {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean deleteByliveDate(Date date) {
 		// TODO Auto-generated method stub
@@ -204,6 +218,7 @@ public class playbackDAOImpl implements IPlaybackDao {
 		return pbList;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<playback> getByDate(Date date) {
 		// TODO Auto-generated method stub

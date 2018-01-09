@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -28,6 +29,7 @@ public class liveDAOImpl implements ILiveDAO {
 			p.load(in);
 			Class.forName(p.getProperty("driverClassName"));
 			System.out.println("live数据库驱动初始化完成");
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +48,17 @@ public class liveDAOImpl implements ILiveDAO {
 			userName = p.getProperty("userName");
 			password = p.getProperty("password");
 			System.out.println("设置链接参数");
-		} catch (IOException e) {
+			Connection cn = DriverManager.getConnection(url, userName, password);
+			Statement sm = cn.createStatement();
+			sm.execute("create table IF NOT EXISTS live(\r\n" + 
+					"	id int not null auto_increment,\r\n" + 
+					"	roomName varchar(50) unique,\r\n" + 
+					"	streamName varchar(50) unique,\r\n" + 
+					"	red5URL varchar(50) not null,\r\n" + 
+					"	primary key(id)\r\n" + 
+					");");
+			System.out.println("表初始化");
+		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
