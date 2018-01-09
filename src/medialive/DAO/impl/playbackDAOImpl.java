@@ -207,7 +207,29 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public List<playback> getByDate(Date date) {
 		// TODO Auto-generated method stub
-		return null;
+		List<playback> pbList = new ArrayList<>();
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE liveDate=?");
+			ps.setDate(1, new java.sql.Date(date.getTime()));
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				playback pb = new playback();
+				pb.setId(rs.getLong("id"));
+				pb.setStreamName(rs.getString("streamName"));
+				pb.setLiveDate(rs.getDate("liveDate"));
+				pb.setFileName(rs.getString("fileName"));
+				pb.setRed5URL(rs.getString("red5URL"));
+				pbList.add(pb);
+			}
+			System.out.println("查找登记日期为"+ date.toLocaleString() +"的视频信息");
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pbList;
 	}
 
 	@Override

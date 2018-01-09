@@ -13,7 +13,7 @@ public class jdbcDemo {
 		playbackDAOImpl playbackDAO = new playbackDAOImpl();
 		playbackDAO.init();
 //		创建playback对象并赋值
-		List<playback> pbList = playbackDAO.getBystreamName("firststream");
+		List<playback> pbList = playbackDAO.getByDate(new Date(118, 0, 10));
 		if(pbList.isEmpty()) {
 			System.out.println("没有找到符合要求的视频信息");
 		}
