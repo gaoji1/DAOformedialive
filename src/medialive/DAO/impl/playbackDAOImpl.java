@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -178,7 +179,29 @@ public class playbackDAOImpl implements IPlaybackDao {
 	@Override
 	public List<playback> getBystreamName(String streamName) {
 		// TODO Auto-generated method stub
-		return null;
+		List<playback> pbList = new ArrayList<>();
+		try (Connection cn = DriverManager.getConnection(url, userName, password);) {
+			PreparedStatement ps = cn.prepareStatement("SELECT *\r\n" + "FROM playback\r\n" + "WHERE streamName=?");
+			ps.setString(1, streamName);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				playback pb = new playback();
+				pb.setId(rs.getLong("id"));
+				pb.setStreamName(rs.getString("streamName"));
+				pb.setLiveDate(rs.getDate("liveDate"));
+				pb.setFileName(rs.getString("fileName"));
+				pb.setRed5URL(rs.getString("red5URL"));
+				pbList.add(pb);
+			}
+			System.out.println("查找流名称为"+ streamName +"的视频信息");
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pbList;
 	}
 
 	@Override
